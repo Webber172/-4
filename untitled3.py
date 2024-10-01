@@ -5,24 +5,7 @@ def rankdata(a):
     ranks = [0] * n
     sorted_indices = sorted(range(n), key=lambda i: a[i])
     
-    rank = 1
-    for i in range(n):
-        if i > 0 and a[sorted_indices[i]] == a[sorted_indices[i - 1]]:
-            ranks[sorted_indices[i]] = ranks[sorted_indices[i - 1]]
-        else:
-            ranks[sorted_indices[i]] = rank
-        rank += 1
-    ranks_sum = defaultdict(int)
-    ranks_count = defaultdict(int)
-    for i in range(n):
-        ranks_sum[a[i]] += ranks[i]
-        ranks_count[a[i]] += 1
-    
-    for i in range(n):
-        if ranks_count[a[i]] > 1:
-            ranks[i] = ranks_sum[a[i]] / ranks_count[a[i]]
-
-    return ranks
+   
 
 def calculate_spearman_correlation(ratings1, ratings2):
     n = len(ratings1)
