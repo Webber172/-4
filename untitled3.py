@@ -1,7 +1,6 @@
-from collections import defaultdict
+from collections import defaultdict Изменил типо код
 
 def rankdata(a):
-    """Ranks the data in array a."""
     n = len(a)
     ranks = [0] * n
     sorted_indices = sorted(range(n), key=lambda i: a[i])
@@ -13,8 +12,6 @@ def rankdata(a):
         else:
             ranks[sorted_indices[i]] = rank
         rank += 1
-
-    # Handle ties by averaging the ranks
     ranks_sum = defaultdict(int)
     ranks_count = defaultdict(int)
     for i in range(n):
@@ -28,7 +25,6 @@ def rankdata(a):
     return ranks
 
 def calculate_spearman_correlation(ratings1, ratings2):
-    """Вычисляет ранговый коэффициент корреляции Спирмена."""
     n = len(ratings1)
     rank1 = rankdata(ratings1)
     rank2 = rankdata(ratings2)
@@ -36,23 +32,19 @@ def calculate_spearman_correlation(ratings1, ratings2):
     return 1 - (6 * d_squared_sum) / (n * (n**2 - 1))
 
 def calculate_concordance(expert_ratings):
-    """Вычисляет коэффициент конкордации Кендалла W."""
     n_experts = len(expert_ratings)
     n_objects = len(expert_ratings[0])
 
-    # Создаем матрицу рангов оценок
     ranked_ratings = []
     for expert in expert_ratings:
         ranked_ratings.append(rankdata(list(expert.values())))
 
-    # Вычисляем сумму квадратов отклонений рангов от среднего ранга для каждого объекта
     ranked_ratings = zip(*ranked_ratings)
     sum_of_squared_deviations = 0
     for obj_ranks in ranked_ratings:
         mean_rank = sum(obj_ranks) / n_experts
         sum_of_squared_deviations += sum((rank - mean_rank)**2 for rank in obj_ranks)
 
-    # Вычисляем коэффициент конкордации
     return 12 * sum_of_squared_deviations / (n_experts**2 * (n_objects**3 - n_objects))
 
 def find_inconsistent_expert(expert_ratings):
@@ -65,7 +57,7 @@ def find_inconsistent_expert(expert_ratings):
             ratings1 = list(expert_ratings[i].values())
             ratings2 = list(expert_ratings[j].values())
             correlation = calculate_spearman_correlation(ratings1, ratings2)
-            if correlation < 0.5:  # Порог для определения несогласованности
+            if correlation < 0.5:  
                 inconsistency_counts[i] += 1
                 inconsistency_counts[j] += 1
 
